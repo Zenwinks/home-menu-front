@@ -84,10 +84,11 @@
       </div>
     </div>
     <button
-      class="addButton flex justify-center align-center"
+      class="addButton flex justify-center align-center pa-2 my-4"
       @click="openUpsertModal()"
     >
       <i class="fa-solid fa-plus" />
+      <span>Ajouter une boisson</span>
     </button>
     <UpsertModal
       v-if="showUpsertModal"
@@ -412,9 +413,9 @@ function closeModal() {
 
 .drinks {
   gap: 15px;
+  overflow-y: auto;
 
   .drink {
-    min-height: 60px;
     background-color: #fff;
     color: #475fff;
     border-radius: 5px;
@@ -506,14 +507,15 @@ function closeModal() {
 }
 
 .addButton {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  border-radius: 180px;
+  border-radius: 10px;
   border: none;
-  width: 60px;
-  height: 60px;
-  font-size: 30px;
   color: #475fff;
+  font-size: 20px;
+  font-weight: 600;
+  gap: 5px;
+
+  i {
+    font-size: 30px;
+  }
 }
 </style>
