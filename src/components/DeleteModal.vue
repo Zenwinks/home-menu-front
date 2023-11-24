@@ -67,7 +67,7 @@ function submitDelete() {
 <style lang="scss" scoped>
 .delete-modal-wrapper {
   z-index: 100;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
@@ -89,8 +89,6 @@ function submitDelete() {
 }
 
 .content {
-  flex: 1;
-
   .type__title, .name__title {
     font-weight: 600;
     text-decoration: underline;
