@@ -151,22 +151,37 @@
               />
             </div>
           </div>
-          <select
-            class="ingredients__new mb-2"
+          <div
+            class="add-ingredient"
             v-if="ingredientToBeAdded"
-            v-model="ingredientToAdd"
           >
-            <option
-              v-for="ingredient in ingredientsWithoutAlreadyAdded"
-              :key="ingredient._id"
-              :value="ingredient"
+            <label
+              for="add-ingredient"
+              class="add-ingredient__label"
             >
-              {{ ingredient.name }}
-            </option>
-          </select>
+              Rechercher un ingrédient
+            </label>
+            <input
+              type="text"
+              v-model="searchIngredients"
+            >
+            <div
+              class="ingredients-not-added col mt-2"
+              v-if="searchIngredients.length >= 3"
+            >
+              <div
+                class="ingredient pa-2"
+                v-for="ingredient in filteredIngredients"
+                :key="ingredient._id"
+                @click="addIngredient(ingredient)"
+              >
+                {{ ingredient.name }}
+              </div>
+            </div>
+          </div>
           <button
-            class="ingredients__add"
-            v-if="!ingredientToBeAdded"
+            class="ingredient__add"
+            v-else
             @click="ingredientToBeAdded = true"
           >
             {{ t('ADMIN.TYPES.ADD_INGREDIENT') }}
@@ -229,7 +244,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import ChangeLanguage from '__/components/ChangeLanguage.vue';
@@ -258,8 +273,8 @@ const selectedDrink = ref<Drink>(deepCopy(drinkSkeleton) as Drink);
 const drinks = ref<Drink[]>([]);
 const categories = ref<Category[]>([]);
 const ingredients = ref<Ingredient[]>([]);
-const ingredientToAdd = ref<Ingredient|null>(null);
 const ingredientToBeAdded = ref(false);
+const searchIngredients = ref('');
 
 onMounted(async () => {
   await getDrinks();
@@ -279,6 +294,12 @@ const ingredientsWithoutAlreadyAdded = computed(() => {
   }
 });
 
+const filteredIngredients = computed(() => {
+  return ingredientsWithoutAlreadyAdded.value.filter((ingredient) =>
+    ingredient.name.toLowerCase().includes(searchIngredients.value.toLowerCase())
+  );
+});
+
 function displayIngredients(ingredients: Ingredient[]) {
   return ingredients.map((ingredient: Ingredient) => ingredient.name).join(', ');
 }
@@ -286,14 +307,6 @@ function displayIngredients(ingredients: Ingredient[]) {
 function canMakeDrink(ingredients: Ingredient[]) {
   return ingredients.every((ingredient: Ingredient) => ingredient.count > 0);
 }
-
-watch(() => ingredientToAdd.value, (newValue) => {
-  if(newValue) {
-    selectedDrink.value!.ingredients!.push(newValue);
-    ingredientToBeAdded.value = false;
-    ingredientToAdd.value = null;
-  }
-});
 
 /**
  * DRINK CRUD
@@ -331,6 +344,13 @@ async function upsertDrink() {
     drinks.value.push(addedDrink);
   }
   closeModal();
+}
+
+function addIngredient(ingredient: Ingredient) {
+  selectedDrink.value.count = 0;
+  selectedDrink.value!.ingredients!.push(ingredient);
+  ingredientToBeAdded.value = false;
+  searchIngredients.value = '';
 }
 
 async function deleteDrink() {
@@ -503,6 +523,20 @@ function closeModal() {
   input[type="checkbox"] {
     width: 15px;
     height: 15px;
+  }
+}
+
+.add-ingredient .add-ingredient__label {
+  font-size: 12px;
+}
+
+.ingredients-not-added {
+  gap: 5px;
+
+  .ingredient {
+    background-color: #475fff;
+    color: #fff;
+    border-radius: 5px;
   }
 }
 
