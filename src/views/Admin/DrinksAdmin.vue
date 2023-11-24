@@ -191,7 +191,10 @@
             </option>
           </select>
         </div>
-        <div class="count mt-4">
+        <div
+          class="count mt-4"
+          v-if="!selectedDrink.ingredients || selectedDrink.ingredients.length === 0"
+        >
           <label
             for="count"
             class="count__label"
