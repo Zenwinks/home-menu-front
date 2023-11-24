@@ -32,7 +32,7 @@
       v-else
     >
       <div
-        class="category row align-center px-2"
+        class="category row align-center pa-3"
         v-for="category in filteredCategories"
         :key="category._id"
       >
@@ -227,12 +227,13 @@ function closeModal() {
   overflow-y: auto;
 
   .category {
-    height: 60px;
     background-color: #fff;
     color: #475fff;
     border-radius: 5px;
 
     .name {
+      font-size: 20px;
+      font-weight: 600;
       flex: 1;
     }
 
