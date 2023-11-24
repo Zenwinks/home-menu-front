@@ -46,6 +46,7 @@ const emits = defineEmits(['save', 'close']);
 const { t } = useI18n();
 
 function submitUpsertElement() {
+  alert('submit clicked');
   emits('save');
 }
 </script>
