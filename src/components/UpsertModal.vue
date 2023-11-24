@@ -53,7 +53,7 @@ function submitUpsertElement() {
 <style lang="scss" scoped>
 .category-modal-wrapper {
   z-index: 100;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
@@ -75,7 +75,7 @@ function submitUpsertElement() {
 }
 
 .content {
-  flex: 1;
+  // flex: 1;
   overflow-y: auto;
 }
 
