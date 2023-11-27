@@ -84,7 +84,6 @@ function submitUpsertElement() {
   gap: 25px;
 
   button {
-    z-index: 200;
     width: 100px;
     height: 50px;
     border: none;

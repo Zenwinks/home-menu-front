@@ -56,7 +56,6 @@ async function signIn() {
       password: password.value
     });
     const { accessToken } = data;
-    console.log('accessToken', accessToken);
     if (accessToken) {
       localStorage.setItem('user', JSON.stringify({ accessToken}));
       router.push('/admin');

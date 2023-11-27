@@ -25,14 +25,22 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
 import ChangeLanguage from '__/components/ChangeLanguage.vue';
 import BackButton from '__/components/BackButton.vue';
 
+import axios from '__/plugins/axios';
+import authHeader from '__/services/auth-header';
+
 const router = useRouter();
 const { t } = useI18n();
+
+onMounted(async () => {
+  await axios.get('/me', { headers: authHeader() }); // try to know if browser is authenticated
+});
 
 function goTo(routeName: string) {
   router.push({ name: routeName });
