@@ -25,12 +25,14 @@
     </div>
     <div class="footer ma-2 row justify-end">
       <button
+        type="button"
         class="cancel"
         @click="emits('close')"
       >
         {{ t('UI.CANCEL') }}
       </button>
       <button
+        type="button"
         class="delete"
         @click="submitDelete"
       >
